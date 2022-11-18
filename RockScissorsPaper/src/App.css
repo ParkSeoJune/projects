@@ -1,0 +1,48 @@
+body {
+  display: flex;
+  height: 913px;
+  justify-content: center;
+  align-items: center;
+}
+
+div .rock-scissors-paper {
+  text-align: center;
+  font-size: 100px;
+}
+
+.buttons {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.buttons button {
+  width: 80px;
+  height: 50px;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  margin-right: 25px;
+  background-color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  transition: background-color .5s;
+}
+
+.buttons button:hover {
+  background-color: skyblue;
+  border: 0;
+  color: #fff;
+}
+
+.buttons button.paper {
+  margin-right: 0px;
+}
+
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
