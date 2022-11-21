@@ -24,7 +24,7 @@ div .rock-scissors-paper {
   background-color: #fff;
   font-size: 16px;
   font-weight: 700;
-  transition: background-color .5s;
+  transition: background-color 0.5s;
 }
 
 .buttons button:hover {
@@ -36,7 +36,6 @@ div .rock-scissors-paper {
 .buttons button.paper {
   margin-right: 0px;
 }
-
 
 @keyframes App-logo-spin {
   from {
