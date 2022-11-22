@@ -8,7 +8,7 @@ function App() {
   const [text, setText] = useState("");
   const [N, setN] = useState(0);
   const [M, setM] = useState(0);
-  const wrongtext = ["몀", "행"];
+  const wrongtext = ["몀", "행", "놈"];
   let randomNumber = Math.floor(Math.random() * (N * M));
   const [isEnd, setIsEnd] = useState(false);
 
@@ -55,6 +55,13 @@ function App() {
       setN(6);
       setM(6);
       setText("헁");
+    } else if (level === 3) {
+      setN(7);
+      setM(7);
+      setText("뇸");
+    } else if (level === 4) {
+      alert("클리어!!");
+      setIsEnd(true);
     }
   }, [level]);
 
