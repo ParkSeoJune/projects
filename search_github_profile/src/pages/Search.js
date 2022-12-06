@@ -14,7 +14,7 @@ const Search = () => {
   };
 
   const getUser = async (username) => {
-    const token = "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";
+    const token = process.env.REACT_APP_API_TOKEN;
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
