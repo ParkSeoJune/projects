@@ -15,7 +15,7 @@ function MyForm({ onSubmit }: MyFormProps) {
   // form에 name과 이름이 같을 뿐이지 다른 변수다!
 
   const onChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target; // 여기에 있는 name은 input 태그안에있는 name=''이다. 따라서 name, description이 해당된다
     setForm({
       ...form,
       [name]: value,
