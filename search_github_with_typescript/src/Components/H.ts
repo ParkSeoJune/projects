@@ -37,8 +37,8 @@ export const Input = styled.input`
   margin-right: 125px;
 `;
 
-export const Profile = styled.img`
-  background-image: url(${(props) => props.image});
+export const Profile = styled.img<{ src: string }>`
+  background-color: url(${(e) => e.src});
   background-size: cover;
   width: 300px;
   height: 300px;
