@@ -19,13 +19,19 @@ export const Title = styled.h1`
 export const Temperature = styled.a`
   font-size: 44px;
   font-weight: 600;
-  color: #f2e4c0;
-  margin-top: 40px;
+  color: #000000;
+  margin-top: 20px;
 `;
 
 export const Description = styled.a<{ color: string }>`
   font-size: 16px;
   color: ${(props) => props.color};
-  margin-top: 30px;
+  margin-top: 40px;
   font-weight: 600;
+`;
+
+export const Icon = styled.img`
+  width: 100px;
+  height: 100px;
+  margin-top: 40px;
 `;
