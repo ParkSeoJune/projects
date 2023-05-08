@@ -35,6 +35,8 @@ export const CreateButton = styled.button`
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 20px;
+  font-size: 16px;
 `;
 
 export const EnterButton = styled.button`
@@ -49,6 +51,7 @@ export const EnterButton = styled.button`
   color: #ffffff;
   font-weight: 600;
   cursor: pointer;
+  font-size: 16px;
 `;
 
 export const Text = styled.p`
