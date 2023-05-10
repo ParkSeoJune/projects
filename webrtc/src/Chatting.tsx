@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./style";
 import { uid } from "uid";
 import { db } from "./firebase";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { child, get, ref, set } from "firebase/database";
 
 interface ChatType {
@@ -17,6 +17,7 @@ interface ChatType {
 }
 
 function Chatting() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [userId, setUserId] = useState<string>("");
   const [chat, setChat] = useState<string[]>([]);
@@ -33,7 +34,7 @@ function Chatting() {
     });
   };
 
-  const joinChat = (uid: string) => {
+  const joinChat = (uid: string, uuid: string) => {
     const dbRef = ref(db);
 
     get(child(dbRef, uid))
@@ -45,6 +46,7 @@ function Chatting() {
             const response: ChatType = snapshot.val();
             if (response.user.first.uid !== userId) {
               console.log("채팅방 이동");
+              navigate(`/chatroom/${uuid}`);
             }
           }
         } else {
@@ -65,14 +67,18 @@ function Chatting() {
     <>
       <S.App>
         <>
-          <h1>Video Chat 🔥</h1>
+          <S.Profile url={location.state.profile} />
+          <h1>화상채팅을 이용해 봐요! 🔥</h1>
           <S.CreateButton onClick={createChat}>create</S.CreateButton>
-          <S.EnterButton onClick={() => joinChat("/chattings")}>
+          <S.EnterButton onClick={() => joinChat("/chattings", "")}>
             join in
           </S.EnterButton>
           {chat &&
             chat.map((props, idx) => (
-              <button key={idx} onClick={() => joinChat(`/chattings/${props}`)}>
+              <button
+                key={idx}
+                onClick={() => joinChat(`/chattings/${props}`, props)}
+              >
                 {props}
               </button>
             ))}
