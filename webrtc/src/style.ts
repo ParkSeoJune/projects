@@ -60,3 +60,12 @@ export const Text = styled.p`
   color: #000000;
   margin: 0px;
 `;
+
+export const Profile = styled.img<{ url: string }>`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background-image: url(${(props) => props.url});
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
