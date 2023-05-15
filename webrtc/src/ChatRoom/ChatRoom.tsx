@@ -21,6 +21,12 @@ function ChatRoom() {
     } else {
       setUser2(location.state);
     }
+
+    const me = new Remon({
+      config: createConfig({ local: "#myVideo" }),
+      listener: createListener(),
+    });
+    me.createRoom(roomName);
   }, []);
 
   return (

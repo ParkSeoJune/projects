@@ -24,14 +24,15 @@ function Chatting() {
 
   const createChat = () => {
     const uuid = uid();
-    const user = "user";
 
-    set(ref(db, `chattings/${uuid}/${user}/` + "first"), {
-      email: location.state.email,
+    set(ref(db, `chattings/${uuid}/user/` + "first"), {
       name: location.state.name,
       profileImageUrl: location.state.profile,
       uid: userId,
+      user1: true,
     });
+
+    navigate(`/chatroom/${uuid}`);
   };
 
   const joinChat = (uid: string, uuid: string) => {
@@ -45,7 +46,12 @@ function Chatting() {
           } else {
             const response: ChatType = snapshot.val();
             if (response.user.first.uid !== userId) {
-              console.log("채팅방 이동");
+              set(ref(db, `chattings/${uuid}/user/` + "second"), {
+                name: location.state.name,
+                profileImageUrl: location.state.profile,
+                uid: userId,
+                user1: false,
+              });
               navigate(`/chatroom/${uuid}`);
             }
           }
@@ -57,7 +63,6 @@ function Chatting() {
         console.log(error);
       });
   };
-  //참가 누르면 그 채팅방의 uid를 가져오고 채팅방안에 있는 유저 uid와 자신의 uid를 비교
 
   useEffect(() => {
     setUserId(location.state.uid);
