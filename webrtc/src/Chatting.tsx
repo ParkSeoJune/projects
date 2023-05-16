@@ -32,7 +32,7 @@ function Chatting() {
       user1: true,
     });
 
-    navigate(`/chatroom/${uuid}`);
+    navigate(`/chattings/${uuid}`);
   };
 
   const joinChat = (uid: string, uuid: string) => {
@@ -52,7 +52,7 @@ function Chatting() {
                 uid: userId,
                 user1: false,
               });
-              navigate(`/chatroom/${uuid}`);
+              navigate(`/chattings/${uuid}`);
             }
           }
         } else {

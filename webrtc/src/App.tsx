@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/chatting" element={<Chatting />} />
-        <Route path="/chatroom/:uid" element={<ChatRoom />} />
+        <Route path="/chattings/:uid" element={<ChatRoom />} />
       </Routes>
     </Router>
   );

@@ -2,6 +2,8 @@ import { useLocation } from "react-router-dom";
 import { App } from "../style";
 import * as S from "./style";
 import { useEffect, useState } from "react";
+import { child, get, ref } from "firebase/database";
+import { db } from "../firebase";
 
 interface UserType {
   name: string;
@@ -16,17 +18,30 @@ function ChatRoom() {
   const [user2, setUser2] = useState<UserType>();
 
   useEffect(() => {
-    if (location.state.user1) {
-      setUser1(location.state);
-    } else {
-      setUser2(location.state);
-    }
+    const dbRef = ref(db);
 
-    const me = new Remon({
-      config: createConfig({ local: "#myVideo" }),
-      listener: createListener(),
-    });
-    me.createRoom(roomName);
+    get(child(dbRef, location.pathname + "/user/first"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setUser1(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    get(child(dbRef, location.pathname + "/user/second"))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setUser2(snapshot.val());
+        } else {
+          console.log("No data available");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }, []);
 
   return (
@@ -37,6 +52,8 @@ function ChatRoom() {
             <S.User>
               <S.Profile src={user1?.profileImageUrl} />
               <S.UserName>{user1?.name}</S.UserName>
+            </S.User>
+            <S.User>
               <S.Profile src={user2?.profileImageUrl} />
               <S.UserName>{user2?.name}</S.UserName>
             </S.User>
