@@ -46,13 +46,28 @@ function Chatting() {
           } else {
             const response: ChatType = snapshot.val();
             if (response.user.first.uid !== userId) {
-              set(ref(db, `chattings/${uuid}/user/` + "second"), {
-                name: location.state.name,
-                profileImageUrl: location.state.profile,
-                uid: userId,
-                user1: false,
-              });
-              navigate(`/chattings/${uuid}`);
+              get(child(dbRef, `chattings/${uuid}/channelId`))
+                .then((snapshot) => {
+                  if (snapshot.exists()) {
+                    set(ref(db, `chattings/${uuid}/user/` + "second"), {
+                      name: location.state.name,
+                      profileImageUrl: location.state.profile,
+                      uid: userId,
+                      user1: false,
+                    });
+
+                    navigate(`/chattings/${uuid}`, {
+                      state: {
+                        channelId: snapshot.exists(),
+                      },
+                    });
+                  } else {
+                    console.log("No data available");
+                  }
+                })
+                .catch((error) => {
+                  console.error(error);
+                });
             }
           }
         } else {

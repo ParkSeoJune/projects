@@ -20,11 +20,13 @@ function ChatRoom() {
 
   useEffect(() => {
     const dbRef = ref(db);
+    let state: boolean = false;
 
     get(child(dbRef, location.pathname + "/user/first"))
       .then((snapshot) => {
         if (snapshot.exists()) {
           setUser1(snapshot.val());
+          state = false;
         } else {
           console.log("No data available");
         }
@@ -37,6 +39,7 @@ function ChatRoom() {
       .then((snapshot) => {
         if (snapshot.exists()) {
           setUser2(snapshot.val());
+          state = true;
         } else {
           console.log("No data available");
         }
@@ -45,7 +48,7 @@ function ChatRoom() {
         console.error(error);
       });
 
-    if (user1 && !user2) {
+    if (!state) {
       // 채팅방을 생성했을 때
       const listener = {
         onCreate(channelId: any) {
@@ -60,8 +63,15 @@ function ChatRoom() {
         listener: listener,
       });
       me.createCast();
-    } else if (user1 && user2) {
-      // 채팅방에 들어갔을 때
+    } else if (state) {
+      console.log(location.state.channelId);
+      const listener = {};
+
+      const me = new Remon({
+        config: createConfig({ local: "#localVideo", remote: "#remoteVideo" }),
+        listener: listener,
+      });
+      me.joinCast(location.state.channelId);
     }
   }, []);
 
@@ -70,8 +80,6 @@ function ChatRoom() {
       credential: {
         key: "1234567890",
         serviceId: "SERVICEID1",
-        // wsurl: "wss://signal.remotemonster.com/ws",
-        // resturl: "https://signal.remotemonster.com/rest",
       },
       view: {
         local,
@@ -107,8 +115,8 @@ function ChatRoom() {
             </S.User>
           </S.Top>
           <S.ChatFrame>
-            <S.Video id="localVideo" autoPlay muted controls playsInline />
-            <S.Video id="remoteVideo" autoPlay />
+            <S.Video id="localVideo" autoPlay muted playsInline />
+            <S.Video id="remoteVideo" autoPlay playsInline />
           </S.ChatFrame>
           <S.Disconnect>통화 종료</S.Disconnect>
         </S.Frame>
