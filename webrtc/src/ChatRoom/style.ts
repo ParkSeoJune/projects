@@ -45,10 +45,9 @@ export const ChatFrame = styled.section`
   justify-content: space-between;
 `;
 
-export const Face = styled.div`
+export const Video = styled.video`
   width: 49.5vw;
   height: 600px;
-  background-color: #000000;
   border-radius: 14px;
 `;
 

@@ -2,8 +2,9 @@ import { useLocation } from "react-router-dom";
 import { App } from "../style";
 import * as S from "./style";
 import { useEffect, useState } from "react";
-import { child, get, ref } from "firebase/database";
+import { child, get, ref, set } from "firebase/database";
 import { db } from "../firebase";
+import Remon from "@remotemonster/sdk";
 
 interface UserType {
   name: string;
@@ -31,6 +32,7 @@ function ChatRoom() {
       .catch((error) => {
         console.error(error);
       });
+
     get(child(dbRef, location.pathname + "/user/second"))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -42,7 +44,53 @@ function ChatRoom() {
       .catch((error) => {
         console.error(error);
       });
+
+    if (user1 && !user2) {
+      // 채팅방을 생성했을 때
+      const listener = {
+        onCreate(channelId: any) {
+          set(ref(db, `${location.pathname}/` + "channelId"), {
+            channelId,
+          });
+        },
+      };
+
+      const me = new Remon({
+        config: createConfig({ local: "#localVideo", remote: "#remoteVideo" }),
+        listener: listener,
+      });
+      me.createCast();
+    } else if (user1 && user2) {
+      // 채팅방에 들어갔을 때
+    }
   }, []);
+
+  function createConfig({ local, remote }: { local: string; remote: string }) {
+    const config = {
+      credential: {
+        key: "1234567890",
+        serviceId: "SERVICEID1",
+        // wsurl: "wss://signal.remotemonster.com/ws",
+        // resturl: "https://signal.remotemonster.com/rest",
+      },
+      view: {
+        local,
+        remote,
+      },
+      media: {
+        video: {
+          width: { min: 320, max: 640 },
+          height: { min: 240, max: 480 },
+          frameRate: { min: 8, max: 30 },
+          maxBandwidth: 500,
+          codec: "H264",
+        },
+        audio: true,
+      },
+    };
+
+    return config;
+  }
 
   return (
     <>
@@ -59,8 +107,8 @@ function ChatRoom() {
             </S.User>
           </S.Top>
           <S.ChatFrame>
-            <S.Face />
-            <S.Face />
+            <S.Video id="localVideo" autoPlay muted controls playsInline />
+            <S.Video id="remoteVideo" autoPlay />
           </S.ChatFrame>
           <S.Disconnect>통화 종료</S.Disconnect>
         </S.Frame>
