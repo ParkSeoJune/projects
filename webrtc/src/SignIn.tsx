@@ -22,7 +22,6 @@ function SignIn() {
 
         auth.onAuthStateChanged((user) => {
           if (user) {
-            console.log(user);
             navigate("/chatting", {
               state: {
                 uid: user.uid,
