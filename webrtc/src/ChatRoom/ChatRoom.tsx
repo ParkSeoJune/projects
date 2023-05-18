@@ -51,39 +51,47 @@ function ChatRoom() {
     if (!state) {
       // 채팅방을 생성했을 때
       const listener = {
-        onCreate(channelId: any) {
+        onConnect(channelId: any) {
           set(ref(db, `${location.pathname}/` + "channelId"), {
             channelId,
           });
         },
+        onClose() {
+          const remonCall = new Remon();
+          remonCall.close();
+        },
       };
 
       const me = new Remon({
-        config: createConfig({ local: "#localVideo", remote: "#remoteVideo" }),
+        config: createConfig(),
         listener: listener,
       });
-      me.createCast();
+      me.connectCall();
     } else if (state) {
-      console.log(location.state.channelId);
-      const listener = {};
+      const listener = {
+        onClose() {
+          const remonCall = new Remon();
+          remonCall.close();
+        },
+      };
 
       const me = new Remon({
-        config: createConfig({ local: "#localVideo", remote: "#remoteVideo" }),
+        config: createConfig(),
         listener: listener,
       });
-      me.joinCast(location.state.channelId);
+      me.connectCall(location.state.channelId);
     }
   }, []);
 
-  function createConfig({ local, remote }: { local: string; remote: string }) {
+  function createConfig() {
     const config = {
       credential: {
         key: "1234567890",
         serviceId: "SERVICEID1",
       },
       view: {
-        local,
-        remote,
+        local: "#localVideo",
+        remote: "#remoteVideo",
       },
       media: {
         video: {
